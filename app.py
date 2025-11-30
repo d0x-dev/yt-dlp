@@ -382,8 +382,7 @@ def home():
     <p><strong>Facebook:</strong> /api/video/download?url=https://facebook.com/watch/?v=123456789&quality=720</p>
     <p><strong>Instagram:</strong> /api/video/download?url=https://instagram.com/p/ABC123/</p>
     
-    <p>Using cloud cookies for age-restricted/private videos from: {}</p>
-    """.format(COOKIES_URL, COOKIES_URL)
+"""
 
 if __name__ == '__main__':
     # Check for cookies file on startup
