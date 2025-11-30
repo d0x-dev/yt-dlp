@@ -9,7 +9,6 @@ app = FastAPI()
 COOKIES_URL = "https://batbin.me/raw/winnock"
 COOKIES_FILE = "cookies.txt"
 
-# Download cookies on startup
 def download_cookies():
     cookies = requests.get(COOKIES_URL).text
     with open(COOKIES_FILE, "w", encoding="utf-8") as f:
@@ -20,34 +19,37 @@ download_cookies()
 
 
 @app.get("/download")
-async def download_video(url: str = Query(..., description="YouTube Video URL")):
-    # Make temp folder
+async def download_video(url: str = Query(...)):
     os.makedirs("downloads", exist_ok=True)
 
-    # Output file name with yt-dlp template
-    output_path = "downloads/%(title)s.%(ext)s"
+    output_template = "downloads/%(title)s.%(ext)s"
 
-    command = [
+    cmd = [
         "yt-dlp",
         "--cookies", COOKIES_FILE,
         "-f", "bv*+ba/b",
-        "-o", output_path,
+        "-o", output_template,
         url
     ]
 
     print("[+] Downloading:", url)
-    subprocess.run(command)
+    subprocess.run(cmd)
 
-    # Find downloaded file
     files = os.listdir("downloads")
     if not files:
         return {"error": "Download failed"}
 
     file_path = os.path.join("downloads", files[0])
 
-    # Send video file as direct download
     return FileResponse(
         file_path,
         media_type="video/mp4",
         filename=files[0]
     )
+
+
+# 🔥 RENDER FIX — Start Uvicorn Server
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 10000))
+    uvicorn.run("app:app", host="0.0.0.0", port=port)
