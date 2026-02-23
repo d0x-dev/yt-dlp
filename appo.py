@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__)
 
 # Cloud cookies configuration
-COOKIES_URL = "https://batbin.me/raw/winnock"
+COOKIES_URL = "https://batbin.me/raw/jennier"
 COOKIES_FILE = "cookies.txt"
 
 # Supported video qualities (for YouTube and Facebook)
