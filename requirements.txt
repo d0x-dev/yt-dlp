@@ -1,5 +1,4 @@
 requests
-fastapi
-uvicorn
+
 yt-dlp
 flask
